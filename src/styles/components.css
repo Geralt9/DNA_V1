@@ -1,0 +1,168 @@
+/* Shared section + piece primitives used across pages */
+
+.page {
+  padding-top: calc(var(--header-h) + var(--space-l));
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--space-s) var(--space-m);
+  margin-bottom: var(--space-xl);
+}
+.section-head .eyebrow {
+  grid-column: 1 / -1;
+}
+.section-head__link {
+  justify-self: end;
+}
+.section-title {
+  font-size: var(--step-4);
+}
+
+/* Square icon button (carousel arrows, modal controls) */
+.square-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text);
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+@media (hover: hover) {
+  .square-btn:not(:disabled):hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+}
+.square-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.square-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* A product "piece": arched frame + roman numeral caption. No card box. */
+.piece {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.piece__frame {
+  position: relative;
+  aspect-ratio: 1000 / 1339;
+  overflow: hidden;
+  border-radius: var(--arch);
+  background: var(--surface-2);
+  box-shadow: var(--shadow-soft);
+  isolation: isolate;
+}
+.piece__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 900ms var(--ease-out);
+}
+/* Gilt hairline arch inset inside the frame, revealed on hover. */
+.piece__frame::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid var(--gilt);
+  border-radius: var(--arch);
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .piece:hover .piece__frame img {
+    transform: scale(1.045);
+  }
+  .piece:hover .piece__frame::after {
+    opacity: 0.9;
+    transform: none;
+  }
+  .piece:hover .piece__title {
+    background-size: 100% 1px;
+  }
+}
+.piece:focus-visible {
+  outline: none;
+}
+.piece:focus-visible .piece__frame {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.piece__meta {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding-top: var(--space-s);
+}
+.piece__title {
+  display: inline;
+  font-family: var(--font-text);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: var(--step-1);
+  line-height: 1.1;
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 1px no-repeat;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.piece__client {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+/* Loading skeleton: a slow vellum shimmer moving across (transform only). */
+.piece--skeleton .piece__frame,
+.skeleton-line {
+  position: relative;
+  overflow: hidden;
+  box-shadow: none;
+}
+.skeleton-line {
+  height: 1.1rem;
+  width: 60%;
+  margin-top: var(--space-s);
+  background: var(--surface-2);
+}
+.piece--skeleton .piece__frame::before,
+.skeleton-line::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--bg) 55%, transparent), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 1.6s var(--ease-in-out) infinite;
+}
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.inline-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-m);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--accent);
+}

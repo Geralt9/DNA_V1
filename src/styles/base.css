@@ -1,0 +1,357 @@
+/* Reset + global typography + shared primitives */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  font-weight: 400;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ol,
+ul {
+  margin: 0;
+}
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-variant-numeric: lining-nums;
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--gilt);
+  color: var(--ink);
+}
+
+/* Focus: always visible for keyboard users, never for mouse clicks. */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.7rem 1.1rem;
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* ── Layout helpers ───────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ── Type helpers ─────────────────────────────────────────────────── */
+.label {
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.eyebrow::before {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  background: currentColor;
+}
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 31rem;
+}
+.prose {
+  max-width: var(--measure);
+  color: var(--muted);
+}
+.prose > * + * {
+  margin-top: 1em;
+}
+.numeral {
+  font-family: var(--font-text);
+  font-variant-numeric: lining-nums;
+  color: var(--accent-text);
+  letter-spacing: 0.1em;
+}
+
+/* ── Actions (rectangular, never pills) ───────────────────────────── */
+.btn {
+  --btn-bg: var(--text);
+  --btn-fg: var(--bg);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85em;
+  min-height: 3.25rem;
+  padding: 0.9rem 1.6rem 0.8rem;
+  border: 1px solid var(--btn-bg);
+  border-radius: var(--radius-s);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+/* A gilt frame that settles in around the button: an illuminated border. */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+  pointer-events: none;
+}
+.btn svg {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .btn:hover::after {
+    opacity: 1;
+    transform: none;
+  }
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn[disabled],
+.btn[aria-disabled='true'] {
+  cursor: progress;
+  opacity: 0.85;
+}
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  border-color: var(--border-strong);
+}
+.btn--block {
+  width: 100%;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding-block: 0.4em;
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  text-decoration: none;
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 1px no-repeat;
+  transition: background-size var(--dur-base) var(--ease-out);
+}
+.link-arrow svg {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .link-arrow:hover {
+    background-size: 35% 1px;
+  }
+  .link-arrow:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+/* ── Gothic ornament: a hairline with a centred lozenge ──────────── */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--accent);
+}
+.rule::before,
+.rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.rule > span {
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+/* ── Reveal primitives (GSAP drives them; CSS sets the resting state) ─ */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.mask-line > span {
+  display: inline-block;
+}
+.js-motion [data-reveal] {
+  opacity: 0;
+}
+
+/* ── Theme crossfade ─────────────────────────────────────────────────
+   Primary path: View Transitions API snapshots the page and crossfades
+   old → new (images and colours together). Fallback: colours transition
+   with CSS while <ThemedArt> stacks both images and fades opacity. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-theme);
+  animation-timing-function: var(--ease-theme);
+}
+/* Inside a view transition the snapshot does the fading; suppress CSS
+   transitions so nothing animates twice. */
+.theme-vt *,
+.theme-vt *::before,
+.theme-vt *::after {
+  transition: none !important;
+}
+.theme-fading,
+.theme-fading *,
+.theme-fading *::before,
+.theme-fading *::after {
+  transition:
+    background-color var(--dur-theme) var(--ease-theme),
+    color var(--dur-theme) var(--ease-theme),
+    border-color var(--dur-theme) var(--ease-theme),
+    fill var(--dur-theme) var(--ease-theme),
+    stroke var(--dur-theme) var(--ease-theme),
+    opacity var(--dur-theme) var(--ease-theme) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,97 @@
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-l);
+  padding: calc(var(--header-h) + var(--space-l)) var(--gutter) max(var(--space-l), env(safe-area-inset-bottom));
+  background: var(--bg);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 420ms var(--ease-out),
+    visibility 0s linear 420ms;
+}
+.mobile-menu[data-open] {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 420ms var(--ease-out),
+    visibility 0s;
+}
+/* A faint gilt arch behind the list, like a lancet window. */
+.mobile-menu::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--header-h) + 0.5rem);
+  right: calc(var(--gutter) * -1 + 1.25rem);
+  width: min(62vw, 300px);
+  height: 70%;
+  border: 1px solid var(--border);
+  border-radius: var(--arch);
+  pointer-events: none;
+}
+
+.mobile-menu__nav ol {
+  display: grid;
+  gap: 0.25rem;
+}
+.mobile-menu__nav li,
+.mobile-menu__foot {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 700ms var(--ease-out);
+}
+.mobile-menu[data-open] .mobile-menu__nav li,
+.mobile-menu[data-open] .mobile-menu__foot {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(80ms + var(--i) * 60ms);
+}
+
+.mobile-menu__link {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 0.35rem;
+  text-decoration: none;
+}
+.mobile-menu__num {
+  min-width: 2.2ch;
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  color: var(--accent-text);
+}
+.mobile-menu__label {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 13vw, 3.6rem);
+  line-height: 1.05;
+}
+.mobile-menu__link.active .mobile-menu__label {
+  color: var(--accent-text);
+}
+
+.mobile-menu__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--border);
+}
+.mobile-menu__meta {
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-align: right;
+}
+
+@media (min-width: 761px) {
+  .mobile-menu {
+    display: none;
+  }
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>DNA — Screen printed in Kitchener since 1994</title>
+    <meta
+      name="description"
+      content="DNA Screen Printing: band wear, fan wear and shop tees, hand-pulled and machine-printed in downtown Kitchener since 1994. The revolution is just a t-shirt away."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#FAF4E4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0B0B0B" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preload" href="/images/logo-mark-418.webp" as="image" type="image/webp" crossorigin="anonymous" />
+    <script>
+      // Set the theme before first paint so there is never a flash of the wrong one.
+      (function () {
+        try {
+          var stored = localStorage.getItem('dna-theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

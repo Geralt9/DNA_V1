@@ -1,0 +1,19 @@
+.themed-art {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--surface-2);
+}
+.themed-art__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--art-position, 50% 30%);
+  transition: opacity var(--dur-theme) var(--ease-theme);
+}
+:root[data-theme='light'] .themed-art__img[data-variant='dark'],
+:root[data-theme='dark'] .themed-art__img[data-variant='light'] {
+  opacity: 0;
+}

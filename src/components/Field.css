@@ -1,0 +1,93 @@
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+.field__label {
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.field__control {
+  position: relative;
+}
+/* Engraved-line inputs: a full hairline frame that firms up on focus. */
+.field__input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.85rem 1rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  color: var(--text);
+  font-size: max(16px, var(--step-0)); /* ≥16px stops iOS zoom */
+  letter-spacing: 0.04em;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+.field__input::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.field__input:hover {
+  border-color: var(--text);
+}
+.field__input:focus-visible {
+  outline: none;
+  border-color: var(--text);
+  background: var(--bg);
+  box-shadow:
+    0 0 0 1px var(--text),
+    0 0 0 5px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.field[data-invalid] .field__input {
+  border-color: var(--danger);
+  border-left-width: 4px;
+  padding-left: calc(1rem - 3px);
+}
+.field__control:has(.field__reveal) .field__input {
+  padding-right: 3.25rem;
+}
+.field__reveal {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: none;
+  color: var(--muted);
+  transform: translateY(-50%);
+}
+.field__reveal:hover {
+  color: var(--text);
+}
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: var(--step--1);
+  line-height: 1.35;
+  color: var(--danger);
+  animation: field-error-in 260ms var(--ease-out);
+}
+.field__error svg {
+  flex: none;
+  margin-top: 0.12em;
+}
+@keyframes field-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.field__hint {
+  font-size: var(--step--1);
+  line-height: 1.35;
+  color: var(--muted);
+}

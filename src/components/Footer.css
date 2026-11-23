@@ -1,0 +1,212 @@
+.site-footer {
+  --tree-h: clamp(440px, 86vh, 900px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: var(--space-2xl);
+  padding-top: calc(var(--tree-h) * 0.52);
+  background: linear-gradient(to bottom, var(--bg), var(--surface) 70%);
+  border-top: 1px solid transparent;
+}
+
+/* ── The tree ─────────────────────────────────────────────────────── */
+.footer-tree {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 0;
+  width: calc(var(--tree-h) * 0.648);
+  height: var(--tree-h);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.footer-tree__art {
+  position: absolute;
+  inset: 0;
+  background: var(--tree-ink);
+  /* 1) the drawing itself  2) a vertical fade so the crown breathes and the
+     roots sink into the footer with no edge */
+  -webkit-mask-image:
+    url('/images/tree-mask.webp'),
+    linear-gradient(to top, transparent 0%, #000 26%, #000 82%, transparent 100%);
+  -webkit-mask-size: contain, 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: bottom center;
+  -webkit-mask-composite: source-in;
+  mask-image:
+    url('/images/tree-mask.webp'),
+    linear-gradient(to top, transparent 0%, #000 26%, #000 82%, transparent 100%);
+  mask-size: contain, 100% 100%;
+  mask-repeat: no-repeat;
+  mask-position: bottom center;
+  mask-composite: intersect;
+  opacity: 0.9;
+  will-change: transform, opacity;
+}
+:root[data-theme='light'] .footer-tree__art {
+  opacity: 0.55;
+}
+/* The halo behind the crown: two gilt hairline rings. */
+.footer-tree__halo {
+  position: absolute;
+  left: 50%;
+  top: 4%;
+  width: 92%;
+  aspect-ratio: 1;
+  margin-left: -46%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow:
+    0 0 0 18px color-mix(in srgb, var(--accent) 0%, transparent),
+    inset 0 0 120px color-mix(in srgb, var(--accent) 10%, transparent);
+  will-change: transform, opacity;
+}
+.footer-tree__halo::after {
+  content: '';
+  position: absolute;
+  inset: 22px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* ── Content around the trunk ─────────────────────────────────────── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--tree-h) * 0.52) minmax(0, 1fr);
+  gap: var(--space-l);
+  align-items: end;
+  padding-bottom: var(--space-xl);
+}
+.footer-statement {
+  grid-column: 1;
+  will-change: transform;
+}
+.footer-emblem {
+  width: 3.2rem;
+  color: var(--text);
+  margin-bottom: var(--space-m);
+}
+.footer-statement__text {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  line-height: 1;
+  max-width: 9ch;
+}
+.footer-statement__text em {
+  font-style: normal;
+  color: var(--accent-text);
+}
+.footer-statement__since {
+  margin-top: var(--space-m);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footer-cols {
+  grid-column: 3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-l) var(--space-m);
+}
+.footer-cols section,
+.footer-cols nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+.footer-h {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--accent-text);
+}
+.footer-cols address {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  color: var(--text);
+}
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-height: 32px;
+  color: var(--text);
+  text-decoration: none;
+  background: linear-gradient(var(--accent), var(--accent)) 0 85% / 0 1px no-repeat;
+  transition: background-size var(--dur-base) var(--ease-out);
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) {
+  .footer-link:hover {
+    background-size: 100% 1px;
+  }
+}
+.footer-muted {
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.footer-base {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-block: var(--space-m) max(var(--space-m), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.footer-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+  text-decoration: none;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* Tablet & phone: the tree stands above, content gathers beneath its roots. */
+@media (max-width: 980px) {
+  .site-footer {
+    --tree-h: clamp(420px, 70vh, 620px);
+    padding-top: calc(var(--tree-h) * 0.9);
+  }
+  .footer-tree {
+    bottom: auto;
+    top: 0;
+  }
+  .footer-tree__art {
+    -webkit-mask-image:
+      url('/images/tree-mask.webp'),
+      linear-gradient(to top, transparent 0%, #000 30%, #000 84%, transparent 100%);
+    mask-image:
+      url('/images/tree-mask.webp'),
+      linear-gradient(to top, transparent 0%, #000 30%, #000 84%, transparent 100%);
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  .footer-statement,
+  .footer-cols {
+    grid-column: 1;
+  }
+  .footer-statement__text {
+    max-width: 14ch;
+  }
+}
+@media (max-width: 420px) {
+  .footer-base {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

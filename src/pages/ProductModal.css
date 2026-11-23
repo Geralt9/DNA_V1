@@ -1,0 +1,72 @@
+.pm {
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  max-width: none;
+  max-height: calc(100svh - 2 * var(--gutter));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-lift);
+  overflow: auto;
+  overscroll-behavior: contain;
+  animation: pm-in 520ms var(--ease-out);
+}
+.pm::backdrop {
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  animation: pm-fade 420ms var(--ease-out);
+}
+.pm[data-closing] {
+  animation: pm-out 320ms var(--ease-in-out) forwards;
+}
+.pm[data-closing]::backdrop {
+  animation: pm-fade 320ms var(--ease-in-out) reverse forwards;
+}
+@keyframes pm-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.985);
+  }
+}
+@keyframes pm-out {
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+}
+@keyframes pm-fade {
+  from {
+    opacity: 0;
+  }
+}
+.pm__panel {
+  position: relative;
+  padding: clamp(1.25rem, 3.5vw, 3rem);
+}
+.pm__close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 3;
+  margin: -0.5rem -0.5rem 0.5rem 1rem;
+  background: var(--bg);
+}
+.pm__error {
+  display: grid;
+  gap: var(--space-m);
+  justify-items: start;
+  padding-block: var(--space-xl);
+}
+.pm__error h2 {
+  font-size: var(--step-3);
+}
+@media (max-width: 860px) {
+  .pm {
+    width: 100vw;
+    max-height: 100svh;
+    height: 100svh;
+    border: 0;
+  }
+}
