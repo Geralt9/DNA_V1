@@ -10,7 +10,21 @@ export function imageData(name) {
     if (import.meta.env.DEV) console.warn(`[Img] unknown image "${name}"`);
     return null;
   }
-  return entry;
+  return withBase(entry);
+}
+
+// Manifest paths are root-absolute ("/images/..."); prefix them with Vite's base
+// so they still resolve when the site is served from a subpath (GitHub Pages).
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const prefix = (p) => (p.startsWith('/') ? BASE + p : p);
+
+function withBase(entry) {
+  if (!BASE) return entry;
+  return {
+    ...entry,
+    src: prefix(entry.src),
+    srcSet: entry.srcSet?.replace(/(^|,\s*)(\/\S+)/g, (_, sep, url) => sep + prefix(url)),
+  };
 }
 
 /** TODO(backend): if the API returns `imageUrl`, prefer it over the local manifest key. */
